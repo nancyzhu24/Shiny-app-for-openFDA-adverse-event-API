@@ -20,13 +20,17 @@ library(DT)
 
 library(openfda)
 source("utils.R")
+source('modules/report.R')
+source('modules/patient.R')
+source('modules/drug.R')
+source('modules/reaction.R')
+
+#set spinner color globally
+options(spinner.color="#18bc9c")
 
 ####### for an overview of this code, try clicking the arrow at the side of the editor
 #< so you understand what are all the high-level functions and outputs in the server fxn
-# https://github.com/FDA/openfda/issues/29
 
-# not possible to do searching for only suspect or concomitant drugs in openFDA
-# http://opendata.stackexchange.com/questions/6157
 
 topdrugs <- fda_query("/drug/event.json") %>%
   fda_count("patient.drug.openfda.generic_name.exact") %>% 
@@ -48,13 +52,4 @@ topbrands <- fda_query("/drug/event.json") %>%
 
 topbrands <- c("Start typing to search..." = "", topbrands)
 
-
-age_code <- data.frame(term = 800:805,
-                       label = c("Decade",
-                                 "Year",
-                                 "Month",
-                                 "Week",
-                                 "Day",
-                                 "Hour"),
-                       stringsAsFactors = FALSE)
 
